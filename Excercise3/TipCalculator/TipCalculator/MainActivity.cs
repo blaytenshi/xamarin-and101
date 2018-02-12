@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
+using System;
 
 namespace TipCalculator
 {
@@ -26,13 +27,22 @@ namespace TipCalculator
             outputTip = FindViewById<TextView>(Resource.Id.outputTip);
             outputTotal = FindViewById<TextView>(Resource.Id.outputTotal);
 
-            calculateButton.Click+=OnCalculateClick;
-
+            calculateButton.Click += OnCalculateClick;
         }
 
         void OnCalculateClick(object sender, EventArgs e)
         {
             string text = inputBill.Text;
+            double bill;
+
+            if (double.TryParse(text, out bill))
+            {
+                var tip = bill * 0.15;
+                var total = bill + tip;
+
+                outputTip.Text = tip.ToString();
+                outputTotal.Text = total.ToString();
+            }
         }
     }
 }
